@@ -73,19 +73,16 @@ export default function Navigation() {
             ))}
           </nav>
 
-          {/* Social Links - Desktop */}
+          {/* Social Links - Desktop (coming soon) */}
           <div className="hidden lg:flex items-center gap-4">
             {socialLinks.map((social) => (
-              <a
+              <span
                 key={social.label}
-                href={social.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-white/60 hover:text-[#ff0080] transition-colors"
+                className="text-white/40 cursor-default"
                 aria-label={social.label}
               >
                 <social.icon className="w-5 h-5" />
-              </a>
+              </span>
             ))}
           </div>
 
@@ -143,15 +140,12 @@ export default function Navigation() {
               <div className="mt-12 pt-12 border-t border-white/10">
                 <div className="flex items-center gap-6">
                   {socialLinks.map((social) => (
-                    <a
+                    <span
                       key={social.label}
-                      href={social.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-white/60 hover:text-[#ff0080] transition-colors"
+                      className="text-white/40 cursor-default"
                     >
                       <social.icon className="w-6 h-6" />
-                    </a>
+                    </span>
                   ))}
                 </div>
                 <a

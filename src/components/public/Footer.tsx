@@ -44,16 +44,13 @@ export default function Footer() {
             </p>
             <div className="flex items-center gap-4 mt-6">
               {navigation.social.map((item) => (
-                <a
+                <span
                   key={item.name}
-                  href={item.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-2 glass rounded-full text-white/60 hover:text-[#ff0080] transition-colors"
+                  className="p-2 glass rounded-full text-white/40 cursor-default"
                   aria-label={item.name}
                 >
                   <item.icon className="w-5 h-5" />
-                </a>
+                </span>
               ))}
             </div>
           </div>
