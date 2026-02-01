@@ -6,7 +6,6 @@ WORKDIR /app
 # Install dependencies (copy prisma first for postinstall script)
 COPY package*.json ./
 COPY prisma ./prisma
-COPY prisma.config.ts ./
 ENV DATABASE_URL="postgresql://postgres:postgres@localhost:5432/db"
 RUN npm install --legacy-peer-deps --ignore-scripts
 RUN npx prisma generate
