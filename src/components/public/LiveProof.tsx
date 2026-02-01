@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion, useSpring, useTransform } from "framer-motion";
+import { motion, useSpring, useMotionValueEvent } from "framer-motion";
 import { Clock, Music, Users, Award } from "lucide-react";
 
 const stats = [
@@ -37,10 +37,12 @@ const stats = [
 
 function AnimatedCounter({ value, suffix }: { value: number; suffix: string }) {
   const [isInView, setIsInView] = useState(false);
+  const [displayValue, setDisplayValue] = useState("0");
   const spring = useSpring(0, { duration: 2000 });
-  const display = useTransform(spring, (latest) =>
-    Math.floor(latest).toLocaleString()
-  );
+
+  useMotionValueEvent(spring, "change", (latest) => {
+    setDisplayValue(Math.floor(latest).toLocaleString());
+  });
 
   useEffect(() => {
     if (isInView) {
@@ -53,7 +55,7 @@ function AnimatedCounter({ value, suffix }: { value: number; suffix: string }) {
       onViewportEnter={() => setIsInView(true)}
       className="tabular-nums"
     >
-      {display}
+      {displayValue}
       {suffix}
     </motion.span>
   );
