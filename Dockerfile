@@ -3,14 +3,16 @@ FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-# Install dependencies
+# Install dependencies (copy prisma first for postinstall script)
 COPY package*.json ./
-RUN npm install --legacy-peer-deps
+COPY prisma ./prisma
+COPY prisma.config.ts ./
+ENV DATABASE_URL="postgresql://postgres:postgres@localhost:5432/db"
+RUN npm install --legacy-peer-deps --ignore-scripts
+RUN npx prisma generate
 
 # Copy source and build
 COPY . .
-ENV DATABASE_URL="postgresql://postgres:postgres@localhost:5432/db"
-RUN npx prisma generate
 RUN npm run build
 
 # Production stage
