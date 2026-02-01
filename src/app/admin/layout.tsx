@@ -3,6 +3,14 @@ export const metadata = {
     default: "Admin",
     template: "%s | Admin - Giuseppe Falcone",
   },
+  robots: {
+    index: false,
+    follow: false,
+    googleBot: {
+      index: false,
+      follow: false,
+    },
+  },
 };
 
 export default function AdminRootLayout({
