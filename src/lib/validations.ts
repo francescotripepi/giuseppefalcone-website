@@ -22,8 +22,8 @@ export const eventSchema = z.object({
   description: z.string().optional(),
   ticketUrl: z.string().url().optional().or(z.literal("")),
   imageUrl: z.string().optional(),
-  isFeatured: z.boolean().default(false),
-  isPublished: z.boolean().default(true),
+  isFeatured: z.boolean().optional(),
+  isPublished: z.boolean().optional(),
 });
 
 export const mediaAssetSchema = z.object({
@@ -35,11 +35,11 @@ export const mediaAssetSchema = z.object({
   s3Key: z.string().optional(),
   mimeType: z.string().optional(),
   fileSize: z.number().optional(),
-  tags: z.array(z.string()).default([]),
+  tags: z.array(z.string()).optional(),
   decade: z.enum(["SEVENTIES", "EIGHTIES", "NINETIES", "MIXED"]).optional().nullable(),
   category: z.string().optional(),
-  isFeatured: z.boolean().default(false),
-  sortOrder: z.number().default(0),
+  isFeatured: z.boolean().optional(),
+  sortOrder: z.number().optional(),
 });
 
 export const mixSchema = z.object({
@@ -50,16 +50,16 @@ export const mixSchema = z.object({
   coverUrl: z.string().optional(),
   decade: z.enum(["SEVENTIES", "EIGHTIES", "NINETIES", "MIXED"]).optional().nullable(),
   duration: z.number().optional(),
-  isFeatured: z.boolean().default(false),
-  sortOrder: z.number().default(0),
-  isPublished: z.boolean().default(true),
+  isFeatured: z.boolean().optional(),
+  sortOrder: z.number().optional(),
+  isPublished: z.boolean().optional(),
 });
 
 export const pressKitSchema = z.object({
   bioShort: z.string().min(50, "Short bio must be at least 50 characters"),
   bioLong: z.string().optional(),
   techRiderUrl: z.string().url().optional().or(z.literal("")),
-  pressPhotosUrls: z.array(z.string()).default([]),
+  pressPhotosUrls: z.array(z.string()).optional(),
   socialLinks: z.object({
     instagram: z.string().optional(),
     facebook: z.string().optional(),
@@ -68,7 +68,7 @@ export const pressKitSchema = z.object({
     youtube: z.string().optional(),
     spotify: z.string().optional(),
   }).optional(),
-  achievements: z.array(z.string()).default([]),
+  achievements: z.array(z.string()).optional(),
 });
 
 export const contactMessageSchema = z.object({
