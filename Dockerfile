@@ -5,10 +5,11 @@ WORKDIR /app
 
 # Install dependencies
 COPY package*.json ./
-RUN npm ci
+RUN npm install --legacy-peer-deps
 
 # Copy source and build
 COPY . .
+ENV DATABASE_URL="postgresql://postgres:postgres@localhost:5432/db"
 RUN npx prisma generate
 RUN npm run build
 
