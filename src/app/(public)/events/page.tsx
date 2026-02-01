@@ -2,6 +2,8 @@ import { Metadata } from "next";
 import EventsSection from "@/components/public/EventsSection";
 import { prisma } from "@/lib/db";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Events",
   description: "Upcoming events and performances by Giuseppe Falcone.",

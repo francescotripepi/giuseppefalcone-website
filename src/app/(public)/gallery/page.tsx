@@ -1,6 +1,8 @@
 import { Metadata } from "next";
 import { prisma } from "@/lib/db";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Gallery",
   description: "Photos and videos from Giuseppe Falcone's performances.",

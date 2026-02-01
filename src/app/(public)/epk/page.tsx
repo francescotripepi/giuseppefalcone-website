@@ -3,6 +3,8 @@ import { prisma } from "@/lib/db";
 import Link from "next/link";
 import { Download, Instagram, Music2, Youtube, ExternalLink } from "lucide-react";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Electronic Press Kit",
   description: "Giuseppe Falcone's official electronic press kit for promoters and media.",

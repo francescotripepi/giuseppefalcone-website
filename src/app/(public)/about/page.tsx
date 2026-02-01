@@ -1,7 +1,8 @@
 import { Metadata } from "next";
-import { motion } from "framer-motion";
 import { prisma } from "@/lib/db";
 import Link from "next/link";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "About",

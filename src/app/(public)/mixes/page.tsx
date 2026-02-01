@@ -2,6 +2,8 @@ import { Metadata } from "next";
 import MixesSection from "@/components/public/MixesSection";
 import { prisma } from "@/lib/db";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Mixes",
   description: "Listen to Giuseppe Falcone's mix collection spanning 70s, 80s, and 90s classics.",

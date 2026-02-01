@@ -5,6 +5,8 @@ import MixesSection from "@/components/public/MixesSection";
 import LiveProof from "@/components/public/LiveProof";
 import { prisma } from "@/lib/db";
 
+export const dynamic = "force-dynamic";
+
 async function getHomePageData() {
   const [events, mixes, settings] = await Promise.all([
     prisma.event.findMany({
