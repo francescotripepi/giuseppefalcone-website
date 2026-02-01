@@ -1,0 +1,202 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Admin Users
+model AdminUser {
+  id           String     @id @default(cuid())
+  email        String     @unique
+  passwordHash String
+  name         String?
+  role         AdminRole  @default(ADMIN)
+  totpSecret   String?
+  totpEnabled  Boolean    @default(false)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  lastLoginAt  DateTime?
+  auditLogs    AuditLog[]
+
+  @@map("admin_users")
+}
+
+enum AdminRole {
+  SUPER_ADMIN
+  ADMIN
+  EDITOR
+}
+
+// Booking Requests
+model BookingRequest {
+  id          String        @id @default(cuid())
+  name        String
+  email       String
+  phone       String?
+  eventDate   DateTime
+  location    String
+  venue       String?
+  budgetRange String?
+  eventType   String?
+  message     String        @db.Text
+  status      BookingStatus @default(NEW)
+  notes       String?       @db.Text
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  @@map("booking_requests")
+}
+
+enum BookingStatus {
+  NEW
+  CONTACTED
+  NEGOTIATING
+  CONFIRMED
+  DECLINED
+  COMPLETED
+}
+
+// Events
+model Event {
+  id          String   @id @default(cuid())
+  title       String
+  startAt     DateTime
+  endAt       DateTime?
+  city        String
+  country     String
+  venue       String
+  description String?  @db.Text
+  ticketUrl   String?
+  imageUrl    String?
+  isFeatured  Boolean  @default(false)
+  isPublished Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("events")
+}
+
+// Media Assets (photos, videos, documents)
+model MediaAsset {
+  id           String      @id @default(cuid())
+  type         MediaType
+  title        String
+  description  String?
+  url          String
+  thumbnailUrl String?
+  s3Key        String?
+  mimeType     String?
+  fileSize     Int?
+  tags         String[]
+  decade       Decade?
+  category     String?
+  isFeatured   Boolean     @default(false)
+  sortOrder    Int         @default(0)
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+
+  @@map("media_assets")
+}
+
+enum MediaType {
+  PHOTO
+  VIDEO
+  DOCUMENT
+  AUDIO
+}
+
+enum Decade {
+  SEVENTIES
+  EIGHTIES
+  NINETIES
+  MIXED
+}
+
+// Press Kit (singleton pattern via unique slug)
+model PressKit {
+  id              String   @id @default(cuid())
+  slug            String   @unique @default("main")
+  bioShort        String   @db.Text
+  bioLong         String?  @db.Text
+  techRiderUrl    String?
+  pressPhotosUrls String[]
+  socialLinks     Json?    // { instagram, facebook, soundcloud, etc }
+  achievements    String[] // array of achievement strings
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@map("press_kit")
+}
+
+// Site Settings (singleton pattern)
+model SiteSettings {
+  id                  String   @id @default(cuid())
+  slug                String   @unique @default("main")
+  siteName            String   @default("Giuseppe Falcone")
+  tagline             String?
+  heroVideoUrl        String?
+  heroImageUrl        String?
+  contactEmail        String?
+  socialLinks         Json?
+  analyticsId         String?
+  maintenanceMode     Boolean  @default(false)
+  bookingEnabled      Boolean  @default(true)
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  @@map("site_settings")
+}
+
+// Mixes (SoundCloud, Mixcloud embeds)
+model Mix {
+  id          String   @id @default(cuid())
+  title       String
+  description String?  @db.Text
+  embedUrl    String   // SoundCloud/Mixcloud/YouTube embed URL
+  embedType   String   // soundcloud, mixcloud, youtube
+  coverUrl    String?
+  decade      Decade?
+  duration    Int?     // in seconds
+  isFeatured  Boolean  @default(false)
+  sortOrder   Int      @default(0)
+  isPublished Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("mixes")
+}
+
+// Audit Log
+model AuditLog {
+  id         String    @id @default(cuid())
+  actorId    String?
+  actor      AdminUser? @relation(fields: [actorId], references: [id], onDelete: SetNull)
+  action     String
+  entityType String
+  entityId   String?
+  meta       Json?
+  ipAddress  String?
+  userAgent  String?
+  createdAt  DateTime  @default(now())
+
+  @@index([actorId])
+  @@index([entityType, entityId])
+  @@index([createdAt])
+  @@map("audit_logs")
+}
+
+// Contact Messages (general inquiries)
+model ContactMessage {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  subject   String?
+  message   String   @db.Text
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@map("contact_messages")
+}
